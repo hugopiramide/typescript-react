@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter  } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
-import PageNotFound from './Pages/PageNotFound.tsx'
+import PageNotFound from './Pages/PageNotFound'
 
 interface errMessages{
   pageNotFound: string;

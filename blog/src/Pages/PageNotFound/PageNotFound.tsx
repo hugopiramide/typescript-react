@@ -1,10 +1,10 @@
 import './PageNotFound.css'
 
-const PageNotFound = (text: string = 'Page/Source Not found') => {
+const PageNotFound = () => {
     return(
         <div id='error'>
-            <h1>404 Page Not Found</h1>
-            <p>{text}</p>
+            <h1>404</h1>
+            <p>Page Not Found</p>
         </div>
     )
 }
