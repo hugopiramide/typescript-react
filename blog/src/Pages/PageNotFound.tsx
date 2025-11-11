@@ -1,4 +1,4 @@
-const PageNotFound = (text:string) => {
+const PageNotFound = (text: string = 'Page/Source Not found') => {
     return(
         <div>
             <p>{text}</p>

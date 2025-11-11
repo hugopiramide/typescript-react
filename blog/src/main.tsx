@@ -5,6 +5,11 @@ import './index.css'
 import App from './App.tsx'
 import PageNotFound from './Pages/PageNotFound.tsx'
 
+interface errMessages{
+  pageNotFound: string;
+  resourceNotFound: string;
+}
+
 const router = createBrowserRouter([
 {
   path:'/home',
@@ -25,7 +30,7 @@ const router = createBrowserRouter([
 },
 {
   path:'*',
-  element: <PageNotFound  text='Page not found' />
+  element: <PageNotFound />
 }
 ])
 
