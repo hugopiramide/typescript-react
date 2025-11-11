@@ -12,26 +12,31 @@ interface errMessages{
 
 const router = createBrowserRouter([
 {
-  path:'/home',
-  element: <Home />,
-  errorElement: <div>404 not found</div>
-},  
-{
-  path:'/users',
-  element: <Users />
-},
-{
-  path:'/posts',
-  element: <Posts />
-},
-{
-  path:'/register',
-  element: <Register />
-},
-{
-  path:'*',
-  element: <PageNotFound />
-}
+  path:'/',
+  element: <Root />,
+  errorElement: <PageNotFound />, 
+    children: [{
+      path: 'home',
+      element: <Home />
+    },
+    {
+      path: 'users',
+      element: <Users />
+
+    },
+    {
+      path: 'posts',
+      element: <Posts />
+    },
+    {
+      path: 'register',
+      element: <Register />
+    }]
+  },
+  {
+    path: '*',
+    element: <PageNotFound />
+  }
 ])
 
 createRoot(document.getElementById('root')!).render(
