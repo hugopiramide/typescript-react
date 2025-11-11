@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter  } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
+import PageNotFound from './Pages/PageNotFound.tsx'
 
 const router = createBrowserRouter([
 {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
 {
   path:'/register',
   element: <Register />
+},
+{
+  path:'*',
+  element: <PageNotFound  text='Page not found' />
 }
 ])
 
