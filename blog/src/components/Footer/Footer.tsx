@@ -1,10 +1,9 @@
+import './Footer.css'
 
-const Footer = () => return {
-(
-    <>
-        <h1>Blog</h1>
-    </>
-)
-
+const Footer = () => { 
+    return (
+        <footer> &copy; Hugo del Castillo Deus </footer>    
+    )
 }
 
+export default Footer
