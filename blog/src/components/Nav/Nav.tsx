@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Nav.css'
 
 const Nav = () => {
@@ -6,16 +6,16 @@ const Nav = () => {
         <nav>
             <ul>
                 <li> 
-                    <Link to={'/home'}  />
+                    <NavLink to={'/home'}  />
                 </li>
                 <li>
-                    <Link to={'/users'} />
+                    <NavLink to={'/users'} />
                 </li>
                 <li>
-                    <Link to={'/posts'} />
+                    <NavLink to={'/posts'} />
                 </li>
                 <li>
-                    <Link to={'/register'} />
+                    <NavLink to={'/register'} />
                 </li>
             </ul>
         </nav>
