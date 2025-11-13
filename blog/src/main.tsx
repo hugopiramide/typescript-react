@@ -6,6 +6,8 @@ import './index.css'
 import PageNotFound from './pages/PageNotFound/'
 import Root from './routes/Root'
 import Home from './routes/Home'
+import Users from './routes/Users'
+import UsersDetails from './routes/UsersDetails'
 
 const router = createBrowserRouter([
 {
