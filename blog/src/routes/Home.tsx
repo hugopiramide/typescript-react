@@ -1,6 +1,6 @@
 import { type LoaderFunction, useLoaderData } from 'react-router-dom'
 import { type PostResponse } from '../types'
-import List from '../components/List/List'
+import List from '../components/List'
 
 const loader: LoaderFunction = async () => {
 

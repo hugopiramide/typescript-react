@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter, Navigate  } from 'react-router-dom
 import './index.css'
 import PageNotFound from './pages/PageNotFound/'
 import Root from './routes/Root'
+import Home from './routes/Home'
 
 const router = createBrowserRouter([
 {
