@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter, Navigate  } from 'react-router-dom'
 
 import './index.css'
-
 import App from './App.tsx'
 import PageNotFound from './pages/PageNotFound/'
 
