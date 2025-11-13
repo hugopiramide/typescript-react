@@ -27,4 +27,6 @@ const Users = () => {
     
 }
 
+Users.loader = loader
+
 export default Users

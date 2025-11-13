@@ -25,4 +25,6 @@ const Home = () => {
     )
 }
 
+Home.loader = loader
+
 export default Home
