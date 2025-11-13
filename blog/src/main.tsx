@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter, Navigate  } from 'react-router-dom
 
 import './index.css'
 import PageNotFound from './pages/PageNotFound/'
+import Root from './routes/Root'
 
 const router = createBrowserRouter([
 {
@@ -21,15 +22,16 @@ const router = createBrowserRouter([
     },
     {
       path: 'users',
-        children: [{
-          index: true,
-          element: <Users />
-        },
-        {
-          path: ':userId',
-          element: <UsersDetails />
-        },
-      ]
+        children: [
+          {
+            index: true,
+            element: <Users />
+          },
+          {
+            path: ':userId',
+            element: <UsersDetails />
+          },
+        ]
     },
     {
       path: 'posts',
