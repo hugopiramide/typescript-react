@@ -1,14 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter, Navigate  } from 'react-router-dom'
-import './index.css'
-import App from './App.tsx'
-import PageNotFound from './Pages/PageNotFound'
 
-interface errMessages{
-  pageNotFound: string;
-  resourceNotFound: string;
-}
+import './index.css'
+
+import App from './App.tsx'
+import PageNotFound from './pages/PageNotFound/'
 
 const router = createBrowserRouter([
 {
