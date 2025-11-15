@@ -13,8 +13,31 @@ const loader: LoaderFunction = async ({ params }) => {
 }
 
 const UsersDetails = () => {
+    
+    const { user, userId } = useLoaderData() as { user: UserResponse; userId: number }
+    
+    if(user && Object.keys(user).length === 0 && Object.getPrototypeOf(user) === Object.prototype){
+        return <h2>Theres no user with id: {userId} </h2>
+    }
+
     return(
         <>
+        <p>
+            <strong>Name: </strong>
+            {user.name}
+        </p>
+        <p>
+            <strong>Email: </strong>
+            {user.email}
+        </p>
+        <p>
+            <strong>Phone: </strong>
+            {user.phone}
+        </p>
+        <p>
+            <strong>Website: </strong>
+            {user.website}
+        </p>
         </>
     )
 }
