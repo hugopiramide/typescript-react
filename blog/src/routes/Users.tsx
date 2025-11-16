@@ -6,8 +6,8 @@ import List from '../components/List'
 const loader: LoaderFunction = async () => {
 
   const response = await fetch('https://jsonplaceholder.typicode.com/users')
-  const posts = await response.json()
-  return posts.slice(0, 10)
+  const users = await response.json()
+  return users.slice(0, 10)
     
 }
 
