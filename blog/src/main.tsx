@@ -25,17 +25,20 @@ const router = createBrowserRouter([
     {
       path: 'home',
       element: <Home />,
+      loader: Home.loader
     },
     {
       path: 'users',
         children: [
           {
             index: true,
-            element: <Users />
+            element: <Users />,
+            loader: Users.loader
           },
           {
             path: ':userId',
-            element: <UsersDetails />
+            element: <UsersDetails />,
+            loader: UsersDetails.loader
           },
         ]
     },
@@ -44,17 +47,19 @@ const router = createBrowserRouter([
       children: [
         {
           index: true,
-          element: <Posts />
+          element: <Posts />,
+          loader: Posts.loader
         },
         {
           path:':postId',
-          element: <PostDetails />
+          element: <PostDetails />,
+          loader: PostDetails.loader
         },
       ]
     },
     {
       path: 'register',
-      element: <Register />
+      element: <Register />,
     }]
   },
   {
