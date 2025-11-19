@@ -8,6 +8,8 @@ import Root from './routes/Root'
 import Home from './routes/Home'
 import Users from './routes/Users'
 import UsersDetails from './routes/UsersDetails'
+import Posts from './routes/Posts'
+import PostDetails from './routes/PostDetails' 
 
 const router = createBrowserRouter([
 {
@@ -41,7 +43,7 @@ const router = createBrowserRouter([
       children: [
         {
           index: true,
-          element: <Post />
+          element: <Posts />
         },
         {
           path:':postId',
