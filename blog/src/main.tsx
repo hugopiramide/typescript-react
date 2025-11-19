@@ -10,6 +10,7 @@ import Users from './routes/Users'
 import UsersDetails from './routes/UsersDetails'
 import Posts from './routes/Posts'
 import PostDetails from './routes/PostDetails' 
+import Register from './routes/Register'
 
 const router = createBrowserRouter([
 {
