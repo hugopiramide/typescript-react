@@ -2,8 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter, Navigate  } from 'react-router-dom'
 
-import './index.css'
 import PageNotFound from './pages/PageNotFound/'
+import ErrorPage from './pages/ErrorPage'
 import Root from './routes/Root'
 import Home from './routes/Home'
 import Users from './routes/Users'
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
 {
   path:'/',
   element: <Root />,
-  errorElement: <PageNotFound />, 
+  errorElement: <ErrorPage />, 
   children: [
     {
       index: true,
