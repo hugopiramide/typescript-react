@@ -1,9 +1,37 @@
-import CardList from "../components/CardList"
-import { products } from "../products/data"
+import { Link } from "react-router-dom"
+import AuthModal from "../components/ModalAuth"
+import { useEffect, useState } from "react"
 
 const Home = () => {
+
+    const [showModal, setShowModal] = useState(false)
+
+    useEffect(() => {
+
+        const hasSeen = sessionStorage.getItem('hcd_welcome_modal')
+        
+        if (!hasSeen) {
+        const timer = setTimeout(() => {
+            setShowModal(true)
+            document.body.classList.add('modal-open')
+            sessionStorage.setItem('hcd_welcome_modal', 'true')
+        }, 2500)
+
+        return () => clearTimeout(timer)
+        }
+    }, [])
+
+    const handleClose = () => {
+        setShowModal(false)
+        document.body.classList.remove('modal-open')
+    }
+
     return(
-    <main className="container-fluid p-0 overflow-hidden">
+        <>
+
+        <AuthModal isOpen={showModal} onClose={handleClose} />
+
+        <main className="container-fluid p-0 overflow-hidden">
         
         <section
         id="homePicture"
@@ -25,7 +53,7 @@ const Home = () => {
         />
 
         <div className="position-relative text-center w-100 jutify-content-center text-white z-1" style={{ paddingTop: 300 }}>
-            <p className="fw-semibold mb-0">Nike Running</p>
+            <p className="fw-semibold mb-0">HCD Running</p>
 
             <h1
             className="display-1 fw-black fst-italic text-uppercase mb-4"
@@ -81,8 +109,78 @@ const Home = () => {
             />
             </div>
         </section>
+        
+        <section className="container py-4 border-bottom border-top my-5">
+            <div className="row text-center g-4">
+            <div className="col-md-4">
+                <i className="bi bi-truck fs-2"></i>
+                <p className="fw-bold mb-0 mt-2 text-uppercase small">Envío Gratuito</p>
+                <p className="text-muted small">En pedidos superiores a 50€</p>
+            </div>
+            <div className="col-md-4">
+                <i className="bi bi-arrow-left-right fs-2"></i>
+                <p className="fw-bold mb-0 mt-2 text-uppercase small">Devoluciones Gratuitas</p>
+                <p className="text-muted small">Tienes 30 días para decidirte</p>
+            </div>
+            <div className="col-md-4">
+                <i className="bi bi-person-check fs-2"></i>
+                <p className="fw-bold mb-0 mt-2 text-uppercase small">Exclusivo Miembros</p>
+                <p className="text-muted small">Productos únicos solo para ti</p>
+            </div>
+            </div>
+        </section>
 
-    </main>
+        <section className="container mb-5">
+            <h2 className="h3 fw-bold text-uppercase fst-italic mb-4">Explora por Deporte</h2>
+            <div className="row g-3">
+            {[
+                { name: 'Lifestyle', img: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=800' },
+                { name: 'Running', img: 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800' },
+                { name: 'Training', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800' },
+                { name: 'Basketball', img: 'https://images.unsplash.com/photo-1519861531473-9200262188bf?q=80&w=800' }
+            ].map((item, idx) => (
+                <div key={idx} className="col-6 col-lg-3">
+                <div className="position-relative overflow-hidden group shadow-sm" style={{ height: '450px' }}>
+                    <img src={item.img} className="w-100 h-100 object-fit-cover transition-transform" alt={item.name} />
+                    <div className="position-absolute bottom-0 start-0 p-4">
+                    <button className="btn btn-light rounded-pill px-3 fw-bold">{item.name}</button>
+                    </div>
+                </div>
+                </div>
+            ))}
+            </div>
+        </section>
+
+        <section className="container mb-5">
+            <h2 className="h3 fw-bold text-uppercase fst-italic mb-4">Lo último de esta semana</h2>
+            <div className="position-relative w-100 shadow-lg" style={{ height: '600px' }}>
+            <img 
+                src="https://images.unsplash.com/photo-1440151050977-247552660a3b?q=80&w=1600" 
+                className="w-100 h-100 object-fit-cover" 
+                alt="Collection"
+            />
+            <div className="position-absolute top-50 start-0 translate-middle-y p-5 text-white">
+                <p className="fw-bold mb-1">Colección Entera</p>
+                <h3 className="display-3 fw-black text-uppercase fst-italic mb-4">COLORES QUE <br/>VIBRAN</h3>
+                <button className="btn btn-light rounded-pill px-4 py-2 fw-bold">Ver Todo</button>
+            </div>
+            </div>
+        </section>
+
+        <section className="container-fluid bg-light py-5 mt-5 border-top">
+            <div className="container py-5 text-center">
+            <h4 className="fw-black text-uppercase h1 mb-3">Tu ventaja como miembro</h4>
+            <p className="lead mb-5 text-muted mx-auto" style={{ maxWidth: '700px' }}>
+                Inicia sesión para disfrutar de envíos rápidos gratuitos, acceso a colecciones exclusivas y experiencias diseñadas para atletas.
+            </p>
+            <div className="d-flex justify-content-center gap-3">
+                <Link to={'/auth'} className="btn btn-dark rounded-pill px-5 py-2 fw-bold">Unirse</Link>
+            </div>
+            </div>
+        </section>
+
+        </main>
+        </>
     )
 }
 

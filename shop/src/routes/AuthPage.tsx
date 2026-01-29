@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { type AuthMode } from '../types/types';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { type AuthMode } from '../types/types'
 
 const AuthPage: React.FC = () => {
-  const [mode, setMode] = useState<AuthMode>('login');
+
+  
+  const [mode, setMode] = useState<AuthMode>('login')
 
   return (
     <div className="container min-h-screen bg-white flex flex-col items-center px-4 pt-10 font-sans text-[#111111] text-center">
@@ -67,6 +70,14 @@ const AuthPage: React.FC = () => {
             {mode === 'login' ? 'Join Now' : 'Start Session'}
           </button>
         </div>
+        <span className="mt-6 text-center">
+          <Link 
+            to={'/'} 
+            className="no-underline text-gray-400 hover:text-black text-xs transition-colors"
+          >
+            ← Volver al Inicio
+          </Link>
+        </span>
       </div>
     </div>
   )
