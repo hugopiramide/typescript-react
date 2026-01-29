@@ -1,0 +1,90 @@
+import { useParams, Link } from "react-router-dom";
+import { products } from "../products/data"
+
+const ArticleDetails: React.FC = () => {
+  const { articleId } = useParams<{ articleId: string }>()
+  
+  console.log(articleId)
+
+  const product = products.find(p => p.id === Number(articleId))
+
+  if (!product) {
+    return (
+      <div className="container vh-100 d-flex flex-column justify-content-center align-items-center">
+        <h2 className="fw-bold uppercase">Article not found</h2>
+        <Link to="/" className="btn btn-dark rounded-pill mt-3 px-4">Go to Home</Link>
+      </div>
+    )
+  }
+
+  return (
+    <div className="container-fluid px-lg-5 py-lg-5 bg-white">
+      <div className="row g-0 mt-4">
+        
+        <div className="col-12 col-md-7 pe-md-5">
+          <div className="bg-light rounded-2 overflow-hidden mb-3">
+            <img 
+              src={product.imageURL} 
+              alt={product.name} 
+              className="img-fluid w-100 object-fit-cover animate__animated animate__fadeIn"
+              style={{ minHeight: '500px', transition: 'transform 0.5s ease' }}
+            />
+          </div>
+        </div>
+
+        <div className="col-12 col-md-5 ps-md-4 mt-4 mt-md-0">
+          <div className="sticky-top" style={{ top: '100px', zIndex: 1 }}>
+            
+            <div className="mb-5">
+              <span className="text-uppercase fw-bold small tracking-wider">{product.category}</span>
+              <h1 className="display-5 fw-extrabold text-uppercase lh-1 mb-2 mt-1" style={{ letterSpacing: '-2px' }}>
+                {product.name}
+              </h1>
+              <p className="fs-5 fw-bold text-dark mt-3">
+                ${product.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}
+              </p>
+            </div>
+
+            <div className="mb-4">
+              <div className="d-flex justify-content-between mb-3">
+                <span className="fw-bold">Seleccionar talla</span>
+                <span className="text-secondary text-decoration-underline small cursor-pointer">Guía de tallas</span>
+              </div>
+              <div className="row g-2">
+                {['38', '39', '40', '41', '42', '43', '44', '45'].map((size) => (
+                  <div key={size} className="col-4">
+                    <button className="btn btn-outline-dark w-100 py-3 rounded-1 border-light-subtle hover-border-dark fw-medium">
+                      {size}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="d-grid gap-2 pt-2">
+              <button className="btn btn-dark rounded-pill py-3 fw-bold text-uppercase border-0 shadow-none nike-btn">
+                Añadir a la bolsa
+              </button>
+              <button className="btn btn-outline-secondary rounded-pill py-3 fw-bold text-uppercase border-1 mt-2">
+                Favorito <i className="bi bi-heart ms-2"></i>
+              </button>
+            </div>
+
+            <div className="mt-5 pt-4 border-top">
+              <p className="text-dark">
+                {product.description}
+              </p>
+              <ul className="small mt-4 ps-3 text-secondary">
+                <li className="mb-2">Color: White/White</li>
+                <li className="mb-2">Style: {product.id}HC-00</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default ArticleDetails

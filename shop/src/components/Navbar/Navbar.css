@@ -1,0 +1,18 @@
+#bag-count {
+    font-size: 10px
+}
+#logo {
+    object-fit: cover;
+    height: 85px;
+    width: 150px;
+}
+
+.blur-soft {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(10px) saturate(180%); 
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+}
+
+.border-bottom {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
