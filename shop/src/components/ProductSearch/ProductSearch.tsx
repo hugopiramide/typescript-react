@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
-import { Search, XCircleFill } from 'react-bootstrap-icons';
-import { products } from '../../products/data';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react'
+import { Search, XCircleFill } from 'react-bootstrap-icons'
+import { products } from '../../products/data'
+import { Link } from 'react-router-dom'
 
 const ProductSearch = () => {
 
