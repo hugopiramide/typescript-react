@@ -20,15 +20,15 @@ const ProductSearch = () => {
       }
     }
 
-    document.addEventListener('mousedown', manejarClickFuera);
+    document.addEventListener('mousedown', manejarClickFuera)
 
     return () => {
-      document.removeEventListener('mousedown', manejarClickFuera);
+      document.removeEventListener('mousedown', manejarClickFuera)
     }
   }, [])
 
   const handleClear = () => {
-    setQuery("");
+    setQuery("")
   }
 
   return (
@@ -62,7 +62,11 @@ const ProductSearch = () => {
         <ul className="list-group position-absolute shadow-lg mt-2" style={{ zIndex: 1050, maxHeight: '300px', overflowY: 'auto' }}>
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <Link to={`/articles/${product.id}`} className='text-decoration-none'>
+              <Link
+                onClick={handleClear}
+                to={`/articles/${product.id}`} 
+                className='text-decoration-none'
+                >
               <li key={product.id} className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                 <small style={{ marginRight: 20}}>{product.name}</small>
                 <span className="badge bg-light text-dark border rounded-pill">{product.category}</span>

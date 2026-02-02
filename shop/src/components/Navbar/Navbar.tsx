@@ -10,7 +10,7 @@ const Navbar = () => {
         <nav className="navbar navbar-expand-lg navbar-light px-md-4">
           <div className="container"> 
             <Link className="navbar-brand" to="/"> 
-              <img id="logo" src="/src/assets/img/logo.svg" alt="Logo" style={{height: '40px'}} /> 
+              <img id="logo" src="/src/assets/img/logo.svg" alt="Logo" style={{height: '60px'}} /> 
             </Link>
 
             <div className="collapse navbar-collapse" id="navbarNav">
