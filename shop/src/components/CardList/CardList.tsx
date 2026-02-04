@@ -1,9 +1,9 @@
 import './CardList.css'
-import { type Product } from '../../types/types'
+import { type ProductResponse } from '../../types/types'
 import Card from '../Card/Card'
 
 interface ProductsProps {
-    products: Product[]
+    products: ProductResponse[]
 }
 
 const CardList:React.FC<ProductsProps> = ({products}) => {

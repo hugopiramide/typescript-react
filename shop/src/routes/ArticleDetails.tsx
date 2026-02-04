@@ -1,13 +1,16 @@
-import { useParams, Link } from "react-router-dom";
-import { products } from "../products/data"
+import { Link, type LoaderFunction, useLoaderData } from "react-router-dom"
+import { type ProductResponse } from "../types/types"
 
-const ArticleDetails: React.FC = () => {
-  const { articleId } = useParams<{ articleId: string }>()
+const loader: LoaderFunction = async ({ params }) => {
+  const response = await fetch(`http://localhost:8080/api/products/${params.articleId}`)
+  const product = await response.json()
+  return product
+}
+
+const ArticleDetails = () => {
   
-  console.log(articleId)
-
-  const product = products.find(p => p.id === Number(articleId))
-
+  const product = useLoaderData() as ProductResponse
+  
   if (!product) {
     return (
       <div className="container vh-100 d-flex flex-column justify-content-center align-items-center">
@@ -24,7 +27,7 @@ const ArticleDetails: React.FC = () => {
         <div className="col-12 col-md-7 pe-md-5">
           <div className="bg-light rounded-2 overflow-hidden mb-3">
             <img 
-              src={product.imageURL} 
+              src={product.imageUrl} 
               alt={product.name} 
               className="img-fluid w-100 object-fit-cover animate__animated animate__fadeIn"
               style={{ minHeight: '500px', transition: 'transform 0.5s ease' }}
@@ -36,12 +39,12 @@ const ArticleDetails: React.FC = () => {
           <div className="sticky-top" style={{ top: '100px', zIndex: 1 }}>
             
             <div className="mb-5">
-              <span className="text-uppercase fw-bold small tracking-wider">{product.category}</span>
+              <span className="text-uppercase fw-bold small tracking-wider">{product.category.name}</span>
               <h1 className="display-5 fw-extrabold text-uppercase lh-1 mb-2 mt-1" style={{ letterSpacing: '-2px' }}>
                 {product.name}
               </h1>
               <p className="fs-5 fw-bold text-dark mt-3">
-                ${product.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}
+                ${product.basePrice.toLocaleString('es-ES', { minimumFractionDigits: 2 })}
               </p>
             </div>
 
@@ -86,5 +89,7 @@ const ArticleDetails: React.FC = () => {
     </div>
   )
 }
+
+ArticleDetails.loader = loader
 
 export default ArticleDetails
