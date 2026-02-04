@@ -28,7 +28,10 @@ const Navbar = () => {
               <ProductSearch />
 
               <button className="btn btn-link text-black p-1 position-relative">
-                <Bag size={24} />
+
+                <Link to="/cart">
+                  <Bag size={24} />
+                </Link>
                 <span id="bag-count" className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
                   2
                 </span>

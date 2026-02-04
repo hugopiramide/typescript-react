@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Search, XCircleFill } from 'react-bootstrap-icons';
-import { products } from '../../products/data';
 import { Link } from 'react-router-dom';
+
+const products = [
+  { id: 1, name: 'Running Shoes', category: 'Footwear' },
+  { id: 2, name: 'Sports Watch', category: 'Accessories' },]
 
 const ProductSearch = () => {
 
