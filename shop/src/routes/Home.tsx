@@ -174,7 +174,7 @@ const Home = () => {
                 Inicia sesión para disfrutar de envíos rápidos gratuitos, acceso a colecciones exclusivas y experiencias diseñadas para atletas.
             </p>
             <div className="d-flex justify-content-center gap-3">
-                <Link to={'/auth'} className="btn btn-dark rounded-pill px-5 py-2 fw-bold">Unirse</Link>
+                <Link to={'/register'} className="btn btn-dark rounded-pill px-5 py-2 fw-bold">Unirse</Link>
             </div>
             </div>
         </section>

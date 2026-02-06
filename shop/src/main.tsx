@@ -12,7 +12,8 @@ import ArticleDetails from './routes/ArticleDetails.tsx'
 import ShopingCart from './routes/ShopingCart.tsx'
 import ErrorPage from './pages/ErrorPage/ErrorPage.tsx'
 import PageNotFound from './pages/PageNotFound/PageNotFound.tsx'
-import AuthPage from './routes/AuthPage.tsx'
+import LogIn from './routes/LogIn.tsx'
+import Register from './routes/Register.tsx'
 
 const router = createBrowserRouter ([
 {
@@ -49,8 +50,12 @@ const router = createBrowserRouter ([
   element: <ShopingCart  userId={1}/>,
 },
 {
-  path: 'auth',
-  element: <AuthPage />,
+  path: 'register',
+  element: <Register />,
+},
+{
+  path: 'login',
+  element: <LogIn />,
 },
 {
   path: '*',

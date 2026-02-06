@@ -37,7 +37,7 @@ const Navbar = () => {
                 </span>
               </button>
 
-              <Link to="/auth">
+              <Link to="/register">
                 <Person size={32} color='black'/>
               </Link>
 
