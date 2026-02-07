@@ -1,11 +1,11 @@
 import './Card.css'
-import { type ProductResponse } from '../../types/types';
-import { Link } from 'react-router-dom';
+import { type ProductResponse } from '../../types/types'
+import { Link } from 'react-router-dom'
 
 const Card: React.FC<ProductResponse> = ({ id, name, category, basePrice, imageUrl }) => {
     
     const formatPrice = (amount: number) => {
-        return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount);
+        return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount)
     }
     return (
 

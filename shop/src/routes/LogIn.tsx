@@ -30,7 +30,7 @@ const LogIn = () => {
     try {
       const user = await authService.login(credentials)
       
-      localStorage.setItem('user', JSON.stringify(user))
+      localStorage.setItem('username', JSON.stringify(user))
           
       navigate('/')
     } catch (err) {

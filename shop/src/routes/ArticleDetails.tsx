@@ -7,6 +7,10 @@ const loader: LoaderFunction = async ({ params }) => {
   return product
 }
 
+const formatPrice = (amount: number) => {
+        return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount);
+    }
+
 const ArticleDetails = () => {
   
   const product = useLoaderData() as ProductResponse
@@ -44,7 +48,7 @@ const ArticleDetails = () => {
                 {product.name}
               </h1>
               <p className="fs-5 fw-bold text-dark mt-3">
-                ${product.basePrice.toLocaleString('es-ES', { minimumFractionDigits: 2 })}
+                {formatPrice(product.basePrice)}
               </p>
             </div>
 

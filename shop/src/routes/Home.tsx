@@ -10,7 +10,7 @@ const Home = () => {
 
         const hasSeen = sessionStorage.getItem('hcd_welcome_modal')
         
-        if (!hasSeen) {
+        if (!hasSeen && !localStorage.getItem('username')) {
         const timer = setTimeout(() => {
             setShowModal(true)
             document.body.classList.add('modal-open')
@@ -28,6 +28,7 @@ const Home = () => {
 
     return(
         <>
+
 
         <AuthModal isOpen={showModal} onClose={handleClose} />
 
@@ -167,6 +168,7 @@ const Home = () => {
             </div>
         </section>
 
+    {!localStorage.getItem('username') && (
         <section className="container-fluid bg-light py-5 mt-5 border-top">
             <div className="container py-5 text-center">
             <h4 className="fw-black text-uppercase h1 mb-3">Tu ventaja como miembro</h4>
@@ -178,6 +180,7 @@ const Home = () => {
             </div>
             </div>
         </section>
+    )}
 
         </main>
         </>
