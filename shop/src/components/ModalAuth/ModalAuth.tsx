@@ -6,7 +6,7 @@ interface AuthModalProps {
   onClose: () => void
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+const ModalAuth: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null
 
   return (
@@ -52,16 +52,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
               <div className="d-grid gap-3">
                 <Link 
-                  to="/auth" 
-                  state={{ initialMode: 'register' }}
+                  to="/register" 
                   className="btn btn-dark rounded-pill py-3 fw-bold text-uppercase"
                 >
                   Únete a nosotros
                 </Link>
                 
                 <Link 
-                  to="/auth" 
-                  state={{ initialMode: 'login' }}
+                  to="/login" 
                   className="btn btn-outline-dark rounded-pill py-3 fw-bold text-uppercase"
                 >
                   Iniciar Sesión
@@ -79,4 +77,4 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   )
 }
 
-export default AuthModal
+export default ModalAuth

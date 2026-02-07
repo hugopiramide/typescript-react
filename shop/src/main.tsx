@@ -14,53 +14,61 @@ import ErrorPage from './pages/ErrorPage/ErrorPage.tsx'
 import PageNotFound from './pages/PageNotFound/PageNotFound.tsx'
 import LogIn from './routes/LogIn.tsx'
 import Register from './routes/Register.tsx'
+import ProtectedRoute from './components/ProtectedRoute';
 
-const router = createBrowserRouter ([
-{
-  path: '/',
-  element: <Root />,
-  errorElement: <ErrorPage />,
-  children: [
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
       {
         index: true,
-        element: <Navigate to={"/home"}  replace />
+        element: <Navigate to={"/home"} replace />
       },
       {
         path: 'home',
         element: <Home />,
       },
+      // RUTAS PRIVADAS PARA USUARIOS AUTENTICADOS
       {
-        path: 'articles',
+        element: <ProtectedRoute />,
         children: [
           {
-            index: true,
-            element: <Articles />,
-            loader: Articles.loader,
-          },{
-            path: ':articleId',
-            element: <ArticleDetails />,
-            loader: ArticleDetails.loader,
-          }
+            path: 'cart',
+            element: <ShopingCart />,
+          },
+          {
+        path: 'articles',
+        children: [
+            {
+              index: true,
+              element: <Articles />,
+              loader: Articles.loader,
+            },
+            {
+              path: ':articleId',
+              element: <ArticleDetails />,
+              loader: ArticleDetails.loader,
+            }
+          ]
+          },
         ]
-      },
+      }
     ]
-},
-{
-  path: 'cart',
-  element: <ShopingCart  userId={1}/>,
-},
-{
-  path: 'register',
-  element: <Register />,
-},
-{
-  path: 'login',
-  element: <LogIn />,
-},
-{
-  path: '*',
-  element: <PageNotFound />,
-}
+  },
+  {
+    path: 'register',
+    element: <Register />,
+  },
+  {
+    path: 'login',
+    element: <LogIn />,
+  },
+  {
+    path: '*',
+    element: <PageNotFound />,
+  }
 ])
 
 createRoot(document.getElementById('root')!).render(

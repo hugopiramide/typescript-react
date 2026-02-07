@@ -1,3 +1,3 @@
-import AuthModal from "./ModalAuth"
+import ModalAuth from "./ModalAuth"
 
-export default AuthModal
+export default ModalAuth
