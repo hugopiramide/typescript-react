@@ -22,4 +22,24 @@ export interface ProductVariantResponse {
   priceModifier: number;
 }
 
-export type AuthMode = 'login' | 'register'
+export interface UserRequest {
+  username: string;
+  email: string;
+  password: string;
+  profileImgUrl: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface UserResponse {
+  id: number;
+  username: string;
+  email: string;
+  profileImgUrl: string;
+  role: string;
+  createdAt: string;
+}
+
