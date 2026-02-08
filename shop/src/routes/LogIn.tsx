@@ -32,7 +32,7 @@ const LogIn = () => {
       
       localStorage.setItem('username', JSON.stringify(user))
           
-      navigate('/')
+      navigate('/home', { state: { message: '¡Bienvenido de nuevo, ' + user.username + '!' } })
     } catch (err) {
       setError('Email o contraseña incorrectos. Inténtalo de nuevo. Error: ' + (err instanceof Error ? err.message : 'Error desconocido'))
     } finally {

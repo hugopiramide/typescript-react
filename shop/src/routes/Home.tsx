@@ -1,25 +1,40 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import AuthModal from "../components/ModalAuth"
 import { useEffect, useState } from "react"
 
 const Home = () => {
 
+    const location = useLocation()
+    const navigate = useNavigate()
+    const [alert, setAlert] = useState<string | null>(location.state?.message || null)
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-
-        const hasSeen = sessionStorage.getItem('hcd_welcome_modal')
-        
-        if (!hasSeen && !localStorage.getItem('username')) {
+    const hasSeen = sessionStorage.getItem('hcd_welcome_modal')
+    if (!hasSeen && !localStorage.getItem('username')) {
         const timer = setTimeout(() => {
-            setShowModal(true)
-            document.body.classList.add('modal-open')
-            sessionStorage.setItem('hcd_welcome_modal', 'true')
-        }, 2500)
-
+        setShowModal(true)
+        document.body.classList.add('modal-open')
+        sessionStorage.setItem('hcd_welcome_modal', 'true')
+    }, 2500)
         return () => clearTimeout(timer)
-        }
+    }
     }, [])
+
+    useEffect(() => {
+
+    if (alert) {
+
+        navigate(location.pathname, { replace: true, state: {} })
+
+        const timer = setTimeout(() => {
+        setAlert(null)
+        }, 3000)
+        
+        return () => clearTimeout(timer)
+    }
+    
+    }, [alert, navigate, location.pathname])
 
     const handleClose = () => {
         setShowModal(false)
@@ -29,6 +44,11 @@ const Home = () => {
     return(
         <>
 
+        {alert && (
+        <div style={{ backgroundColor: 'green', color: 'white', padding: '10px' }}>
+            {alert}
+        </div>
+        )}
 
         <AuthModal isOpen={showModal} onClose={handleClose} />
 
