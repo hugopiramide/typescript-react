@@ -43,3 +43,24 @@ export interface UserResponse {
   createdAt: string;
 }
 
+export interface CartItemResponse {
+  id: number;
+  productVariant: ProductVariantResponse;
+  quantity: number;
+}
+
+export interface CartResponse {
+  userId: UserResponse;
+  items: CartItemResponse[];
+  createdAt: string;
+}
+
+export interface CartRequest {
+  userId: number;
+  cartItems: CartItemRequest[];
+}
+
+export interface CartItemRequest {
+  productVariantId: number;
+  quantity: number;
+}
