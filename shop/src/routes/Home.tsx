@@ -1,8 +1,18 @@
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useLoaderData, useLocation, useNavigate, type LoaderFunction } from "react-router-dom"
 import AuthModal from "../components/ModalAuth"
 import { useEffect, useState } from "react"
+import type { ProductResponse } from "../types/types"
+import CardList from "../components/CardList"
+
+const loader: LoaderFunction = async () => {
+        const response = await fetch('http://localhost:8080/api/products/find-first-10')
+        const firstProducts = await response.json()
+        return firstProducts
+    }
 
 const Home = () => {
+
+    const firstProducts = useLoaderData() as ProductResponse[]
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -33,13 +43,14 @@ const Home = () => {
         
         return () => clearTimeout(timer)
     }
-    
+
     }, [alert, navigate, location.pathname])
 
     const handleClose = () => {
         setShowModal(false)
         document.body.classList.remove('modal-open')
     }
+                    console.log('No products found ,' + firstProducts)
 
     return(
         <>
@@ -84,12 +95,9 @@ const Home = () => {
             </h1>
 
             <div className="d-flex justify-content-center gap-3">
-            <button className="btn btn-light rounded-pill px-4 py-2 fw-bold shadow-sm">
+            <Link to={"/articles"} className="btn btn-light rounded-pill px-4 py-2 fw-bold shadow-sm">
                 Comprar
-            </button>
-            <button className="btn btn-light rounded-pill px-4 py-2 fw-bold shadow-sm">
-                Ver Vídeo
-            </button>
+            </Link>
             </div>
         </div>
         </section>
@@ -154,21 +162,11 @@ const Home = () => {
         <section className="container mb-5">
             <h2 className="h3 fw-bold text-uppercase fst-italic mb-4">Explora por Deporte</h2>
             <div className="row g-3">
-            {[
-                { name: 'Lifestyle', img: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=800' },
-                { name: 'Running', img: 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800' },
-                { name: 'Training', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800' },
-                { name: 'Basketball', img: 'https://images.unsplash.com/photo-1519861531473-9200262188bf?q=80&w=800' }
-            ].map((item, idx) => (
-                <div key={idx} className="col-6 col-lg-3">
-                <div className="position-relative overflow-hidden group shadow-sm" style={{ height: '450px' }}>
-                    <img src={item.img} className="w-100 h-100 object-fit-cover transition-transform" alt={item.name} />
-                    <div className="position-absolute bottom-0 start-0 p-4">
-                    <button className="btn btn-light rounded-pill px-3 fw-bold">{item.name}</button>
-                    </div>
-                </div>
-                </div>
-            ))}
+                {firstProducts == null || firstProducts.length === 0 ? (
+                    <p className='no-items'>No posts</p>
+                ) : (
+                    <CardList products={firstProducts} />
+                )}
             </div>
         </section>
 
@@ -183,7 +181,7 @@ const Home = () => {
             <div className="position-absolute top-50 start-0 translate-middle-y p-5 text-white">
                 <p className="fw-bold mb-1">Colección Entera</p>
                 <h3 className="display-3 fw-black text-uppercase fst-italic mb-4">COLORES QUE <br/>VIBRAN</h3>
-                <button className="btn btn-light rounded-pill px-4 py-2 fw-bold">Ver Todo</button>
+                <Link to={"/articles"} className="btn btn-light rounded-pill px-4 py-2 fw-bold">Ver Todo</Link>
             </div>
             </div>
         </section>
@@ -206,5 +204,7 @@ const Home = () => {
         </>
     )
 }
+
+Home.loader = loader
 
 export default Home

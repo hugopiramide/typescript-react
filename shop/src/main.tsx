@@ -29,6 +29,7 @@ const router = createBrowserRouter([
       {
         path: 'home',
         element: <Home />,
+        loader: Home.loader,
       },
       // RUTAS PRIVADAS PARA USUARIOS AUTENTICADOS
       {
