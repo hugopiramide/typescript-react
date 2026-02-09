@@ -8,6 +8,9 @@ const Register = () => {
   
   const [formData, setFormData] = useState<UserRequest>({
     username: '',
+    name: '',
+    surnames: '',
+    birthday: new Date(),
     email: '',
     password: '',
     profileImgUrl: ''
@@ -18,16 +21,42 @@ const Register = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
+    
+    if (name === 'birthday') {
+      setFormData(prev => ({
+        ...prev,
+        [name]: new Date(value)
+      }))
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }))
+    }
+  }
+
+  const isAdult = (birthDate: Date): boolean => {
+    const today = new Date()
+    const age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      return age - 1 >= 18
+    }
+    
+    return age >= 18
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
     setLoading(true)
+
+    if (!isAdult(formData.birthday)) {
+      setError('Debes ser mayor de 18 años para registrarte')
+      setLoading(false)
+      return
+    }
 
     try {
       const newUser = await authService.register(formData)
@@ -65,6 +94,36 @@ const Register = () => {
             value={formData.username}
             onChange={handleChange}
             placeholder="UserName"
+            className="w-full border border-gray-300 p-3 rounded-sm focus:border-black outline-none transition-all"
+            required
+          />
+          
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Nombre"
+            className="w-full border border-gray-300 p-3 rounded-sm focus:border-black outline-none transition-all"
+            required
+          />
+
+          <input
+            type="text"
+            name="surnames"
+            value={formData.surnames}
+            onChange={handleChange}
+            placeholder="Apellidos"
+            className="w-full border border-gray-300 p-3 rounded-sm focus:border-black outline-none transition-all"
+            required
+          />
+
+          <input
+            type="date"
+            name="birthday"
+            value={formData.birthday instanceof Date ? formData.birthday.toISOString().split('T')[0] : ''}
+            onChange={handleChange}
+            placeholder="Fecha de Nacimiento"
             className="w-full border border-gray-300 p-3 rounded-sm focus:border-black outline-none transition-all"
             required
           />
