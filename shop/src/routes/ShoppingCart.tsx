@@ -1,0 +1,124 @@
+import React from 'react'
+import { useShoppingCart } from '../hooks/useShoppingCart'
+import { Link } from 'react-router-dom';
+
+const formatPrice = (amount: number) => {
+  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount)
+};
+
+export const ShoppingCart: React.FC<{ userId: number }> = ({ userId }) => {
+  const { cart, loading, removeItem } = useShoppingCart(userId)
+
+  const calculateTotal = () => {
+    if (!cart?.cartItems) return 0
+    return cart.cartItems.reduce((total, item) => {
+      const price = item.productVariantId.product?.price || 0
+      return total + (price * item.quantity)
+    }, 0)
+  }
+
+  if (loading) return (
+    <div className="d-flex justify-content-center align-items-center min-vh-100">
+      <div className="spinner-border text-dark" role="status"></div>
+    </div>
+  )
+
+  if (!cart || !cart.cartItems || cart.cartItems.length === 0) {
+    return (
+      <div className="container min-vh-100 d-flex flex-column justify-content-center align-items-center text-center">
+        <h2 className="fw-bold mb-3">TU CARRITO ESTÁ VACÍO</h2>
+        <p className="text-secondary mb-4">¿No sabes qué comprar? ¡Echa un vistazo a las novedades!</p>
+        <Link to={'/articles'} className="btn btn-dark rounded-pill px-5 py-3 fw-bold">VER NOVEDADES</Link>
+      </div>
+    )
+  }
+
+  return (
+    <div className="bg-white min-vh-100">
+      <div className="container py-5">
+        <div className="row g-5">
+
+          <div className="col-lg-8">
+            <h1 className="h4 fw-bold mb-4">CARRITO ({cart.cartItems.length})</h1>
+            
+            {cart.cartItems.map((item) => {
+              const product = item.productVariantId?.product || {}
+              const size = item.productVariantId?.size || 'N/A'
+              
+              return (
+                <div key={item.id} className="row py-4 border-bottom g-0">
+                  
+                  <div className="col-4 col-md-3">
+                    <div className="bg-light rounded" style={{ aspectRatio: '1/1', overflow: 'hidden' }}>
+                      <img 
+                        src={product.imageUrl || "https://ejemplo.com"} 
+                        alt={product.name}
+                        className="w-100 h-100 object-fit-cover"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="col-8 col-md-9 ps-3 ps-md-4 d-flex flex-column">
+                    <div className="d-flex justify-content-between align-items-start">
+                      <div>
+                        <h5 className="fw-bold mb-1 text-uppercase">{product.name}</h5>
+                        <p className="text-secondary mb-1">Talla: {size}</p>
+                        <p className="text-secondary">Cantidad: {item.quantity}</p>
+                      </div>
+                      <p className="fw-bold">{formatPrice(product.price)}</p>
+                    </div>
+                    
+                    <div className="mt-auto">
+                      <button 
+                        onClick={() => removeItem(item.id)}
+                        className="btn btn-link text-dark p-0 text-decoration-underline fw-medium"
+                        style={{ fontSize: '0.9rem' }}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="col-lg-4">
+            <div className="sticky-top" style={{ top: '2rem' }}>
+              <h2 className="h4 fw-bold mb-4">RESUMEN</h2>
+              
+              <div className="d-flex justify-content-between mb-3">
+                <span>Subtotal</span>
+                <span>{formatPrice(calculateTotal())}</span>
+              </div>
+              
+              <div className="d-flex justify-content-between mb-3">
+                <span>Gastos de envío gestionados</span>
+                <span className="text-success">Gratis</span>
+              </div>
+              
+              <hr className="my-4" />
+              
+              <div className="d-flex justify-content-between mb-4">
+                <span className="fw-bold">Total</span>
+                <span className="fw-bold h5">{formatPrice(calculateTotal())}</span>
+              </div>
+              
+              <hr className="my-4" />
+
+              <button className="btn btn-dark w-100 py-3 rounded-pill fw-bold mb-3">
+                PASAR POR CAJA
+              </button>
+              
+              <button className="btn btn-outline-secondary w-100 py-3 rounded-pill fw-bold text-dark border-dark">
+                PAYPAL / APPLE PAY
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default ShoppingCart

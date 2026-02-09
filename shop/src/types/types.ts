@@ -15,9 +15,18 @@ export interface CategoryResponse {
   description: string;
 }
 
+export interface ProductShortResponse {
+  name: string;
+  price: number;
+  imageUrl: string;
+  description: string;
+  category: CategoryResponse;
+}
+
 export interface ProductVariantResponse {
   id: number;
   size: string;
+  product: ProductShortResponse;
   stock: number;
   priceModifier: number;
 }
@@ -34,25 +43,17 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface UserResponse {
-  id: number;
-  username: string;
-  email: string;
-  profileImgUrl: string;
-  role: string;
-  createdAt: string;
-}
-
 export interface CartItemResponse {
   id: number;
-  productVariant: ProductVariantResponse;
+  productVariantId: ProductVariantResponse;
   quantity: number;
 }
 
 export interface CartResponse {
-  userId: UserResponse;
-  items: CartItemResponse[];
-  createdAt: string;
+  id: number;
+  user: UserResponse;
+  cartItems: CartItemResponse[];
+  updatedAt: string;
 }
 
 export interface CartRequest {
@@ -63,4 +64,26 @@ export interface CartRequest {
 export interface CartItemRequest {
   productVariantId: number;
   quantity: number;
+}
+
+export interface UserResponse {
+  id: number;
+  username: string;
+  name: string;
+  surnames: string;
+  birthday: Date;
+  email: string;
+  profileImgUrl: string;
+  role: string;
+  createdAt: string;
+}
+
+export interface UserRequest {
+  username: string;
+  name: string;
+  surnames: string;
+  birthday: Date;
+  email: string;
+  password: string;
+  profileImgUrl: string;
 }

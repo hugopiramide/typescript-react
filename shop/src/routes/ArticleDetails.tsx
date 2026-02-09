@@ -1,5 +1,7 @@
 import { Link, type LoaderFunction, useLoaderData } from "react-router-dom"
+import { useState } from 'react'
 import { type ProductResponse } from "../types/types"
+import { CartService } from '../services/ShoppingCartService'
 
 const loader: LoaderFunction = async ({ params }) => {
   const response = await fetch(`http://localhost:8080/api/products/${params.articleId}`)
@@ -12,8 +14,20 @@ const formatPrice = (amount: number) => {
     }
 
 const ArticleDetails = () => {
-  
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null)
+  const [variantError, setVariantError] = useState<string | null>(null)
+  const [selectedVariant, setSelectedVariant] = useState<any>(null)
   const product = useLoaderData() as ProductResponse
+  
+  const handleSelectVariant = (variant: any) => {
+    setSelectedVariantId(variant.id)
+    setSelectedVariant(variant)
+    setVariantError(null)
+  }
+  
+  const calculateVariantPrice = (basePrice: number, priceModifier: number) => {
+    return basePrice + priceModifier
+  }
   
   if (!product) {
     return (
@@ -47,9 +61,19 @@ const ArticleDetails = () => {
               <h1 className="display-5 fw-extrabold text-uppercase lh-1 mb-2 mt-1" style={{ letterSpacing: '-2px' }}>
                 {product.name}
               </h1>
-              <p className="fs-5 fw-bold text-dark mt-3">
-                {formatPrice(product.basePrice)}
-              </p>
+              <div className="d-flex align-items-center gap-3 mt-3">
+                <p className="fs-5 fw-bold text-dark mb-0">
+                  {selectedVariant ? formatPrice(calculateVariantPrice(product.basePrice, selectedVariant.priceModifier)) : formatPrice(product.basePrice)}
+                </p>
+                {selectedVariant && selectedVariant.priceModifier > 0 && (
+                  <span className="badge bg-warning text-dark">+{formatPrice(selectedVariant.priceModifier)}</span>
+                )}
+                {product.active ? (
+                  <span className="badge bg-success">Disponible</span>
+                ) : (
+                  <span className="badge bg-danger">No disponible</span>
+                )}
+              </div>
             </div>
 
             <div className="mb-4">
@@ -58,23 +82,58 @@ const ArticleDetails = () => {
                 <span className="text-secondary text-decoration-underline small cursor-pointer">Guía de tallas</span>
               </div>
               <div className="row g-2">
-                {['38', '39', '40', '41', '42', '43', '44', '45'].map((size) => (
-                  <div key={size} className="col-4">
-                    <button className="btn btn-outline-dark w-100 py-3 rounded-1 border-light-subtle hover-border-dark fw-medium">
-                      {size}
-                    </button>
-                  </div>
-                ))}
+                {product.variants && product.variants.length > 0 ? (
+                  product.variants.map((variant) => (
+                    <div key={variant.id} className="col-4">
+                      <button
+                        type="button"
+                        onClick={() => handleSelectVariant(variant)}
+                        disabled={variant.stock === 0}
+                        className={`btn w-100 py-3 rounded-1 fw-medium position-relative ${selectedVariantId === variant.id ? 'btn-dark' : 'btn-outline-dark'} ${variant.stock === 0 ? 'disabled opacity-50' : ''}`}>
+                        <div>{variant.size}</div>
+                        <small className="d-block text-muted" style={{fontSize: '0.7rem'}}>{variant.stock > 0 ? `${variant.stock} en stock` : 'Sin stock'}</small>
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                    <div className="col-4">
+                      <p>No hay existencias disponibles</p>
+                    </div>
+                  )
+                }
               </div>
             </div>
 
             <div className="d-grid gap-2 pt-2">
-              <button className="btn btn-dark rounded-pill py-3 fw-bold text-uppercase border-0 shadow-none nike-btn">
-                Añadir a la bolsa
-              </button>
-              <button className="btn btn-outline-secondary rounded-pill py-3 fw-bold text-uppercase border-1 mt-2">
-                Favorito <i className="bi bi-heart ms-2"></i>
-              </button>
+              { localStorage.getItem('username') ? (
+                <form onSubmit={async (e) => {
+                  e.preventDefault()
+                  if (!selectedVariantId) {
+                    setVariantError('Selecciona una talla antes de añadir al carrito')
+                    return
+                  }
+                  try {
+                    const userId = Number(localStorage.getItem('userId')) || 1
+                    const item = { productVariantId: selectedVariantId, quantity: 1 }
+                    await CartService.addItem(userId, item)
+                    alert('Producto añadido al carrito')
+                  } catch (err) {
+                    console.error(err)
+                    alert('Error al añadir el producto al carrito')
+                  }
+                }} method="post">
+                  <input type="hidden" name="productVariantId" value={selectedVariantId ?? ''} />
+                  <input type="hidden" name="quantity" value={1} />
+                  <button type="submit" disabled={!selectedVariantId} className="btn btn-dark rounded-pill py-3 fw-bold text-uppercase border-0 shadow-none nike-btn">
+                    Añadir a la bolsa
+                  </button>
+                  {variantError && <div className="text-danger small mt-2">{variantError}</div>}
+                </form>
+              ) : (
+                <Link to="/login" className="btn btn-dark rounded-pill py-3 fw-bold text-uppercase border-0 shadow-none nike-btn text-decoration-none">
+                  Inicia sesión
+                </Link>
+              ) }
             </div>
 
             <div className="mt-5 pt-4 border-top">
@@ -82,8 +141,18 @@ const ArticleDetails = () => {
                 {product.description}
               </p>
               <ul className="small mt-4 ps-3 text-secondary">
-                <li className="mb-2">Color: White/White</li>
-                <li className="mb-2">Style: {product.id}HC-00</li>
+                <li className="mb-2">Categoría: {product.category.name}</li>
+                <li className="mb-2">Código: {product.id}HC-00</li>
+                {selectedVariant && (
+                  <>
+                    <li className="mb-2">Talla seleccionada: {selectedVariant.size}</li>
+                    <li className="mb-2">Stock disponible: {selectedVariant.stock}</li>
+                    <li className="mb-2">Precio: {formatPrice(calculateVariantPrice(product.basePrice, selectedVariant.priceModifier))}</li>
+                  </>
+                )}
+                {product.category.description && (
+                  <li className="mb-2 mt-3"><em>{product.category.description}</em></li>
+                )}
               </ul>
             </div>
 

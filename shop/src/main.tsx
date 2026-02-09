@@ -9,7 +9,7 @@ import Home from './routes/Home.tsx'
 import Root from './routes/Root.tsx'
 import Articles from './routes/Articles.tsx'
 import ArticleDetails from './routes/ArticleDetails.tsx'
-import ShopingCart from './routes/ShopingCart.tsx'
+import ShopingCart from './routes/ShoppingCart.tsx'
 import ErrorPage from './pages/ErrorPage/ErrorPage.tsx'
 import PageNotFound from './pages/PageNotFound/PageNotFound.tsx'
 import LogIn from './routes/LogIn.tsx'
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'cart',
-            element: <ShopingCart />,
+            element: <ShopingCart userId={1} />,
           },
           {
         path: 'articles',
