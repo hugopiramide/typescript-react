@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authService } from '../services/AuthService' 
-import { type UserRequest } from '../types/types' 
+import { type UserRequest, type LoginRequest } from '../types/types' 
 
 const Register = () => {
   const navigate = useNavigate()
+
+  const [credentials, setCredentials] = useState<LoginRequest>({
+    username: '',
+    password: '',
+  })
   
   const [formData, setFormData] = useState<UserRequest>({
     username: '',
@@ -60,13 +65,19 @@ const Register = () => {
 
     try {
       const newUser = await authService.register(formData)
-      console.log('Usuario registrado:', newUser)
-      
-      localStorage.setItem('user', JSON.stringify(newUser))
-      
-      navigate('/')
+
+      setCredentials({
+        username: formData.username,
+        password: formData.password
+      })
+
+      const user = await authService.login(credentials)
+
+      localStorage.setItem('username', JSON.stringify(user))
+
+      navigate('/home', { state: { message: '¡Bienvenido, ' + newUser.username + '!' } })
     } catch (err) {
-      setError('No se pudo crear la cuenta. Inténtalo de nuevo. Error: ' + (err instanceof Error ? err.message : 'Error desconocido'))
+      setError('No se pudo crear la cuenta. Inténtalo de nuevo. ' + (err instanceof Error ? err.message : 'Error desconocido'))
     } finally {
       setLoading(false)
     }
