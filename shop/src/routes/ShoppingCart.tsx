@@ -70,7 +70,11 @@ export const ShoppingCart: React.FC<{ userId: number }> = ({ userId }) => {
                     
                     <div className="mt-auto">
                       <button 
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => {
+                          if (confirm("¿Estás seguro de que quieres eliminar este artículo del carrito?")) {
+                            removeItem(item.id)
+                          }
+                        }}
                         className="btn btn-link text-dark p-0 text-decoration-underline fw-medium"
                         style={{ fontSize: '0.9rem' }}
                       >

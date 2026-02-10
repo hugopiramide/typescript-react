@@ -16,18 +16,7 @@ const formatPrice = (amount: number) => {
 const ArticleDetails = () => {
   const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null)
   const [variantError, setVariantError] = useState<string | null>(null)
-  const [selectedVariant, setSelectedVariant] = useState<any>(null)
   const product = useLoaderData() as ProductResponse
-  
-  const handleSelectVariant = (variant: any) => {
-    setSelectedVariantId(variant.id)
-    setSelectedVariant(variant)
-    setVariantError(null)
-  }
-  
-  const calculateVariantPrice = (basePrice: number, priceModifier: number) => {
-    return basePrice + priceModifier
-  }
   
   if (!product) {
     return (
@@ -61,19 +50,9 @@ const ArticleDetails = () => {
               <h1 className="display-5 fw-extrabold text-uppercase lh-1 mb-2 mt-1" style={{ letterSpacing: '-2px' }}>
                 {product.name}
               </h1>
-              <div className="d-flex align-items-center gap-3 mt-3">
-                <p className="fs-5 fw-bold text-dark mb-0">
-                  {selectedVariant ? formatPrice(calculateVariantPrice(product.basePrice, selectedVariant.priceModifier)) : formatPrice(product.basePrice)}
-                </p>
-                {selectedVariant && selectedVariant.priceModifier > 0 && (
-                  <span className="badge bg-warning text-dark">+{formatPrice(selectedVariant.priceModifier)}</span>
-                )}
-                {product.active ? (
-                  <span className="badge bg-success">Disponible</span>
-                ) : (
-                  <span className="badge bg-danger">No disponible</span>
-                )}
-              </div>
+              <p className="fs-5 fw-bold text-dark mt-3">
+                {formatPrice(product.basePrice)}
+              </p>
             </div>
 
             <div className="mb-4">
@@ -87,11 +66,9 @@ const ArticleDetails = () => {
                     <div key={variant.id} className="col-4">
                       <button
                         type="button"
-                        onClick={() => handleSelectVariant(variant)}
-                        disabled={variant.stock === 0}
-                        className={`btn w-100 py-3 rounded-1 fw-medium position-relative ${selectedVariantId === variant.id ? 'btn-dark' : 'btn-outline-dark'} ${variant.stock === 0 ? 'disabled opacity-50' : ''}`}>
-                        <div>{variant.size}</div>
-                        <small className="d-block text-muted" style={{fontSize: '0.7rem'}}>{variant.stock > 0 ? `${variant.stock} en stock` : 'Sin stock'}</small>
+                        onClick={() => { setSelectedVariantId(variant.id); setVariantError(null) }}
+                        className={`btn w-100 py-3 rounded-1 fw-medium ${selectedVariantId === variant.id ? 'btn-dark' : 'btn-outline-dark'}`}>
+                        {variant.size}
                       </button>
                     </div>
                   ))
@@ -141,18 +118,8 @@ const ArticleDetails = () => {
                 {product.description}
               </p>
               <ul className="small mt-4 ps-3 text-secondary">
-                <li className="mb-2">Categoría: {product.category.name}</li>
-                <li className="mb-2">Código: {product.id}HC-00</li>
-                {selectedVariant && (
-                  <>
-                    <li className="mb-2">Talla seleccionada: {selectedVariant.size}</li>
-                    <li className="mb-2">Stock disponible: {selectedVariant.stock}</li>
-                    <li className="mb-2">Precio: {formatPrice(calculateVariantPrice(product.basePrice, selectedVariant.priceModifier))}</li>
-                  </>
-                )}
-                {product.category.description && (
-                  <li className="mb-2 mt-3"><em>{product.category.description}</em></li>
-                )}
+                <li className="mb-2">Color: White/White</li>
+                <li className="mb-2">Style: {product.id}HC-00</li>
               </ul>
             </div>
 
