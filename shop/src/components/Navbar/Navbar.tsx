@@ -2,8 +2,34 @@ import { Bag, Person } from 'react-bootstrap-icons';
 import ProductSearch from '../ProductSearch';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
+import { useEffect, useState } from 'react';
 
 const Navbar = () => {
+
+const userData = localStorage.getItem('username')
+const user = userData ? JSON.parse(userData) : null
+
+const [cartCount, setCartCount] = useState<number>(0)
+
+useEffect(() => {
+    const fetchCartCount = async () => {
+      if (!user?.id) return;
+    
+      try {
+        const response = await fetch(`http://localhost:8080/api/cart-items/user/${user.id}/count`)
+        if (response.ok) {
+          const count = await response.json()
+          setCartCount(count)
+        }
+      } catch (error) {
+        console.error("Error cargando carrito:", error)
+      }
+    }
+
+    fetchCartCount()
+  }, [user?.id])
+
+  
   return (
 
       <header className="border-bottom sticky-top blur-soft"> 
@@ -33,13 +59,13 @@ const Navbar = () => {
                   <Bag size={24} />
                 </Link>
                 <span id="bag-count" className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-                  2
+                  {cartCount}
                 </span>
               </button>
 
-              { localStorage.getItem('username') ? (
+              { user ? (
                   <img 
-                    src={JSON.parse(localStorage.getItem('username')!).profileImgUrl || '/src/assets/img/default-avatar.png'} 
+                    src={user.profileImgUrl || '/src/assets/img/default-avatar.png'} 
                     alt="User Avatar" 
                     className="rounded-circle" 
                     width="32" 
