@@ -37,10 +37,19 @@ const Navbar = () => {
                 </span>
               </button>
 
-              <Link to="/login">
-                <Person size={32} color='black'/>
-              </Link>
-
+              { localStorage.getItem('username') ? (
+                  <img 
+                    src={JSON.parse(localStorage.getItem('username')!).profileImgUrl || '/src/assets/img/default-avatar.png'} 
+                    alt="User Avatar" 
+                    className="rounded-circle" 
+                    width="32" 
+                    height="32" 
+                  />
+              ) : (
+                  <Link to="/login">
+                      <Person size={32} color='black'/>
+                  </Link>
+              ) }
               <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span className="navbar-toggler-icon"></span>
               </button>
