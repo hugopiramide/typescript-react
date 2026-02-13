@@ -58,7 +58,7 @@ const ProductSearch = () => {
           <input
             type="text"
             className="form-control border-0 bg-light rounded-pill ps-5 py-2"
-            placeholder="Search and press Enter..."
+            placeholder="Busca y presiona Enter..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => results.length > 0 && setItsOpen(true)}
