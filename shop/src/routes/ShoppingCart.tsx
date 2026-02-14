@@ -155,7 +155,7 @@ export const ShoppingCart: React.FC = () => {
           </div>
 
           <div className="col-lg-4">
-            <div className="sticky-top" style={{ top: '2rem' }}>
+            <div style={{ top: '2rem' }}>
               <h2 className="h4 fw-bold mb-4">RESUMEN</h2>
 
               <div className="d-flex justify-content-between mb-3">
@@ -187,8 +187,8 @@ export const ShoppingCart: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 

@@ -10,14 +10,14 @@ const loader: LoaderFunction = async ({ params }) => {
 }
 
 const formatPrice = (amount: number) => {
-        return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount);
-    }
+  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount);
+}
 
 const ArticleDetails = () => {
   const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null)
   const [variantError, setVariantError] = useState<string | null>(null)
   const product = useLoaderData() as ProductResponse
-  
+
   if (!product) {
     return (
       <div className="container vh-100 d-flex flex-column justify-content-center align-items-center">
@@ -30,12 +30,12 @@ const ArticleDetails = () => {
   return (
     <div className="container-fluid px-lg-5 py-lg-5 bg-white">
       <div className="row g-0 mt-4">
-        
+
         <div className="col-12 col-md-7 pe-md-5">
           <div className="bg-light rounded-2 overflow-hidden mb-3">
-            <img 
-              src={product.imageUrl} 
-              alt={product.name} 
+            <img
+              src={product.imageUrl}
+              alt={product.name}
               className="img-fluid w-100 object-fit-cover animate__animated animate__fadeIn"
               style={{ minHeight: '500px', transition: 'transform 0.5s ease' }}
             />
@@ -44,7 +44,7 @@ const ArticleDetails = () => {
 
         <div className="col-12 col-md-5 ps-md-4 mt-4 mt-md-0">
           <div className="sticky-top" style={{ top: '100px', zIndex: 1 }}>
-            
+
             <div className="mb-5">
               <span className="text-uppercase fw-bold small tracking-wider">{product.category.name}</span>
               <h1 className="display-5 fw-extrabold text-uppercase lh-1 mb-2 mt-1" style={{ letterSpacing: '-2px' }}>
@@ -73,16 +73,16 @@ const ArticleDetails = () => {
                     </div>
                   ))
                 ) : (
-                    <div className="col-4">
-                      <p>No hay existencias disponibles</p>
-                    </div>
-                  )
+                  <div className="col-4">
+                    <p>No hay existencias disponibles</p>
+                  </div>
+                )
                 }
               </div>
             </div>
 
             <div className="d-grid gap-2 pt-2">
-              { localStorage.getItem('username') ? (
+              {localStorage.getItem('username') ? (
                 <form onSubmit={async (e) => {
                   e.preventDefault()
                   if (!selectedVariantId) {
@@ -90,9 +90,16 @@ const ArticleDetails = () => {
                     return
                   }
                   try {
-                    const userId = Number(localStorage.getItem('userId')) || 1
+                    const userData = localStorage.getItem('username')
+                    const user = userData ? JSON.parse(userData) : null
+                    const userId = user?.id || 1
+
                     const item = { productVariantId: selectedVariantId, quantity: 1 }
                     await CartService.addItem(userId, item)
+
+
+                    window.dispatchEvent(new Event('cartUpdated'))
+
                     alert('Producto añadido al carrito')
                   } catch (err) {
                     console.error(err)
@@ -110,7 +117,7 @@ const ArticleDetails = () => {
                 <Link to="/login" className="btn btn-dark rounded-pill py-3 fw-bold text-uppercase border-0 shadow-none nike-btn text-decoration-none">
                   Inicia sesión
                 </Link>
-              ) }
+              )}
             </div>
 
             <div className="mt-5 pt-4 border-top">
