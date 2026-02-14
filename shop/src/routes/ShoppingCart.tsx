@@ -6,7 +6,10 @@ const formatPrice = (amount: number) => {
   return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount)
 }
 
-export const ShoppingCart: React.FC<{ userId: number }> = ({ userId }) => {
+export const ShoppingCart: React.FC = () => {
+  const userData = localStorage.getItem('username')
+  const user = userData ? JSON.parse(userData) : null
+  const userId = user?.id || 1
   const { cart, loading, removeItem, addToCart } = useShoppingCart(userId)
 
   const calculateTotal = () => {

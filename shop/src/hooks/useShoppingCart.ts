@@ -36,6 +36,7 @@ export const useShoppingCart = (userId: number) => {
           quantity,
         })
         setCart(updatedCart)
+        window.dispatchEvent(new Event('cartUpdated'))
         return updatedCart
       } catch (err) {
         const errorMessage = "No se pudo añadir el producto al carrito"
@@ -58,6 +59,7 @@ export const useShoppingCart = (userId: number) => {
             ...cart,
             cartItems: cart.cartItems.filter((item) => item.id !== itemId),
           })
+          window.dispatchEvent(new Event('cartUpdated'))
         }
       } catch (err) {
         const errorMessage = "Error al eliminar el producto del carrito"

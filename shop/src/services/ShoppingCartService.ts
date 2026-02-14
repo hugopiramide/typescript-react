@@ -7,9 +7,9 @@ async function handleResponse<T>(response: Response): Promise<T> {
     const errorData = await response.json().catch(() => ({}))
     throw new Error(errorData.message || `Error: ${response.status} ${response.statusText}`)
   }
-  
+
   if (response.status === 204) return {} as T
-  
+
   return response.json()
 }
 
@@ -38,11 +38,11 @@ export const CartService = {
   },
 
   removeItem: async (userId: number, cartItemId: number): Promise<void> => {
-    
+
     const response = await fetch(`${API_URL}/user/${userId}/item/${cartItemId}`, {
       method: 'DELETE',
     });
     return handleResponse<void>(response)
   },
-  
+
 }
