@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 const ProtectedRoute = () => {
-    const user = localStorage.getItem('username')
+    const user = localStorage.getItem('userId')
     const location = useLocation()
 
     if (!user) {

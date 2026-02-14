@@ -82,7 +82,7 @@ const ArticleDetails = () => {
             </div>
 
             <div className="d-grid gap-2 pt-2">
-              {localStorage.getItem('username') ? (
+              {localStorage.getItem('userId') ? (
                 <form onSubmit={async (e) => {
                   e.preventDefault()
                   if (!selectedVariantId) {

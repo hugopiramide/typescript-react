@@ -31,6 +31,21 @@ const router = createBrowserRouter([
         element: <Home />,
         loader: Home.loader,
       },
+      {
+        path: 'articles',
+        children: [
+          {
+            index: true,
+            element: <Articles />,
+            loader: Articles.loader,
+          },
+          {
+            path: ':articleId',
+            element: <ArticleDetails />,
+            loader: ArticleDetails.loader,
+          }
+        ]
+      },
       // RUTAS PRIVADAS PARA USUARIOS AUTENTICADOS
       {
         element: <ProtectedRoute />,
@@ -38,21 +53,6 @@ const router = createBrowserRouter([
           {
             path: 'cart',
             element: <ShopingCart />,
-          },
-          {
-            path: 'articles',
-            children: [
-              {
-                index: true,
-                element: <Articles />,
-                loader: Articles.loader,
-              },
-              {
-                path: ':articleId',
-                element: <ArticleDetails />,
-                loader: ArticleDetails.loader,
-              }
-            ]
           },
         ]
       }
